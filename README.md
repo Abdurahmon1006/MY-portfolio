@@ -110,7 +110,7 @@ shundan o'qiladi. Tayyor namuna loyihada: **`.env.pythonanywhere`**
 (gitga qo'shilmaydi, chunki ichida maxfiy qiymatlar bor).
 
 1. PythonAnywhere → **Files** → loyiha papkasi (masalan
-   `/home/abdurahmon1006/my-portfolio/`) → **New file** → nomi: `.env`
+   `/home/Abdurahmon1006/MY-portfolio/`) → **New file** → nomi: `.env`
 2. `.env.pythonanywhere` mazmunini shu faylga nusxalab qo'ying.
 3. `EMAIL_HOST_PASSWORD` ni Gmail'dagi **yangi** App Password bilan
    almashtiring (eski parol GitHub tarixida oshkor bo'lgan).
@@ -121,8 +121,8 @@ shundan o'qiladi. Tayyor namuna loyihada: **`.env.pythonanywhere`**
 | --- | --- |
 | `DJANGO_SECRET_KEY` | yangi generatsiya qilingan kalit |
 | `DJANGO_DEBUG` | `False` |
-| `DJANGO_ALLOWED_HOSTS` | `abdurahmon1006.pythonanywhere.com` |
-| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://abdurahmon1006.pythonanywhere.com` |
+| `DJANGO_ALLOWED_HOSTS` | `Abdurahmon1006.pythonanywhere.com` |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://Abdurahmon1006.pythonanywhere.com` |
 | `EMAIL_HOST_USER` / `EMAIL_HOST_PASSWORD` | Gmail manzil + App Password |
 
 Eslatma: PythonAnywhere'ning **bepul** hisobida tashqi SMTP yopiq, ammo
@@ -157,7 +157,7 @@ pip install -r requirements.txt
 
 ```bash
 git pull
-python scripts/rename_app_in_db.py /home/abdurahmon1006/my-portfolio/db.sqlite3   # faqat birinchi marta
+python scripts/rename_app_in_db.py /home/Abdurahmon1006/MY-portfolio/db.sqlite3   # faqat birinchi marta
 python manage.py migrate
 python manage.py collectstatic --noinput
 ```
@@ -165,15 +165,15 @@ python manage.py collectstatic --noinput
 ### 4. Web bo'limi
 
 - **Web → Reload** tugmasini bosing.
-- **Virtualenv**: `/home/abdurahmon1006/.virtualenvs/portfolio`
+- **Virtualenv**: `/home/Abdurahmon1006/.virtualenvs/portfolio`
   (yoki shunchaki nomi: `portfolio`).
-- **Source code / Working directory**: `/home/abdurahmon1006/my-portfolio`.
+- **Source code / Working directory**: `/home/Abdurahmon1006/MY-portfolio`.
 - **Static files** bo'limida ikki mapping qo'shing:
-  `/static/` → `/home/abdurahmon1006/my-portfolio/staticfiles`
-  `/media/` → `/home/abdurahmon1006/my-portfolio/media`
+  `/static/` → `/home/Abdurahmon1006/MY-portfolio/staticfiles`
+  `/media/` → `/home/Abdurahmon1006/MY-portfolio/media`
   (`DEBUG=False` bo'lganda Django statik fayllarni o'zi bermaydi.)
 - **WSGI config** faylida loyiha yo'li `sys.path` ga qo'shilganini tekshiring:
-  `path = '/home/abdurahmon1006/my-portfolio'`.
+  `path = '/home/Abdurahmon1006/MY-portfolio'`.
 
 ### Sayt 500 xato bersa
 

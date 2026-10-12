@@ -33,7 +33,7 @@ PROJECT_DIR="${PROJECT_DIR:-}"
 
 # --- 0. Loyiha papkasini topish ---------------------------------------
 if [ -z "$PROJECT_DIR" ]; then
-  for candidate in "$HOME/my-portfolio" "$HOME/ABDURAHMON_django" "$HOME/portfolio" "$(pwd)"; do
+  for candidate in "$HOME/MY-portfolio" "$HOME/my-portfolio" "$HOME/ABDURAHMON_django" "$HOME/portfolio" "$(pwd)"; do
     if [ -f "$candidate/manage.py" ]; then
       PROJECT_DIR="$candidate"
       break
@@ -118,6 +118,11 @@ cat <<EOF
                        (virtualenvwrapper ishlatgan bo'lsangiz, shunchaki
                         nomini yozish ham mumkin: $VENV_NAME)
 
+  DIQQAT! "Virtualenv" maydoniga \`.env\` yoki \`.env.pythonanywhere\`
+  FAYLINING yo'lini yozmang — u yerga faqat virtualenv PAPKASI
+  yoziladi. Aks holda PythonAnywhere "No virtualenv detected at this
+  path" deb ogohlantiradi va paketlar tizimdan olinadi.
+
   Static files (ikki mapping):
     URL /static/  →  $PROJECT_DIR/staticfiles
     URL /media/   →  $PROJECT_DIR/media
@@ -144,5 +149,9 @@ cat <<EOF
 
   Python versiyasi: Web bo'limida tanlangan versiya bilan
   bir xil bo'lishi shart — $("$PYTHON_BIN" --version 2>&1)
+
+  Bepul hisob eslatmasi: sayt o'chib qolmasligi uchun oyiga bir marta
+  Web bo'limi tepasidagi "Run until 1 month from today" tugmasini
+  bosib turing.
 =====================================================================
 EOF
