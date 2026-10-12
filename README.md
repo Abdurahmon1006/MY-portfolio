@@ -134,7 +134,7 @@ Veb-ilova uchun tanlangan Python versiyasi bilan virtualenv versiyasi
 **bir xil** bo'lishi shart. Hujjatdagi 3 qadamni bitta skript bajaradi:
 
 ```bash
-cd ~/my-portfolio
+cd ~/MY-portfolio
 bash scripts/pythonanywhere_setup.sh
 # boshqa Python versiyasi kerak bo'lsa:
 # PYTHON_BIN=/usr/bin/python3.12 bash scripts/pythonanywhere_setup.sh
@@ -143,7 +143,16 @@ bash scripts/pythonanywhere_setup.sh
 Skript `~/.virtualenvs/portfolio` da virtualenv yaratadi, `requirements.txt`
 ni o'rnatadi, `manage.py check` ni ishga tushiradi va Web bo'limiga
 kiritiladigan qiymatlarni (Source code, Virtualenv yo'li, statik mappinglar,
-WSGI qatorlari) chop etadi.
+WSGI qatorlari) chop etadi. Papka noto'g'ri bo'lsa (masalan uy papkasi `~`),
+skript buni darhol aytib to'xtaydi.
+
+Migratsiya va statik fayllarni ham skript o'zi — **to'g'ri papkada** —
+bajarib bersin desangiz:
+
+```bash
+cd ~/MY-portfolio
+RENAME_DB=1 RUN_DJANGO=1 bash scripts/pythonanywhere_setup.sh
+```
 
 Hujjatdagi usulda qo'lda ham mumkin:
 
@@ -156,6 +165,7 @@ pip install -r requirements.txt
 ### 3. Baza va statik fayllar
 
 ```bash
+cd /home/Abdurahmon1006/MY-portfolio   # AVVAL loyiha papkasiga o'ting!
 git pull
 python scripts/rename_app_in_db.py /home/Abdurahmon1006/MY-portfolio/db.sqlite3   # faqat birinchi marta
 python manage.py migrate
@@ -174,6 +184,19 @@ python manage.py collectstatic --noinput
   (`DEBUG=False` bo'lganda Django statik fayllarni o'zi bermaydi.)
 - **WSGI config** faylida loyiha yo'li `sys.path` ga qo'shilganini tekshiring:
   `path = '/home/Abdurahmon1006/MY-portfolio'`.
+
+### Ko'p uchraydigan xatolar
+
+| Xato | Sabab | Yechim |
+| --- | --- | --- |
+| `fatal: not a git repository` | buyruq uy papkasida (`~`) bajarilgan | `cd /home/Abdurahmon1006/MY-portfolio` |
+| `ModuleNotFoundError: No module named 'config'` | uy papkasidagi eski `manage.py` nusxasi ishga tushgan (uyda `config/` yo'q) | avval `cd` loyiha papkasiga; uydagi nusxani solishtirib (`diff ~/manage.py ~/MY-portfolio/manage.py`) kerak bo'lsa chetga oling: `mv ~/manage.py ~/manage.py.eski` |
+| `ERROR: Could not open requirements file: 'requirements.txt'` | noto'g'ri papka | `cd` loyiha papkasiga |
+| `KeyError: 'collectstatic'` | sozlamalar yuklanmadi (yuqoridagi sabab) | o'sha — `cd` |
+| `Warning: No virtualenv detected at this path` | **Virtualenv** maydoniga `.env` faylining yo'li yozilgan | u yerga papka yo'lini yozing: `/home/Abdurahmon1006/.virtualenvs/portfolio` |
+
+`manage.py` buyruqlari **faqat** loyiha papkasida ishlaydi: papka ichida
+`manage.py`, `requirements.txt` va `config/settings.py` birga turishi shart.
 
 ### Sayt 500 xato bersa
 

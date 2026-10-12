@@ -49,6 +49,31 @@ fi
 cd "$PROJECT_DIR"
 echo "Loyiha papkasi : $PROJECT_DIR"
 
+# Loyiha tuzilishi to'g'rimi? manage.py bor-u config/ yo'q bo'lsa,
+# Django "ModuleNotFoundError: No module named 'config'" beradi.
+for required in manage.py requirements.txt config/settings.py; do
+  if [ ! -e "$PROJECT_DIR/$required" ]; then
+    echo "XATO: $PROJECT_DIR/$required topilmadi." >&2
+    echo "Bu papka loyiha papkasi emasga o'xshaydi. To'g'ri yo'lni bering:" >&2
+    echo "  PROJECT_DIR=\$HOME/MY-portfolio bash \$0" >&2
+    exit 1
+  fi
+done
+
+# Uy papkasidagi eski nusxalar chalkashtiradi: Django buyruqlari FAQAT
+# loyiha papkasida ishga tushirilishi kerak.
+stray=""
+if [ "$PROJECT_DIR" != "$HOME" ]; then
+  for f in manage.py requirements.txt; do
+    [ -e "$HOME/$f" ] && stray="$HOME/$f"
+  done
+fi
+if [ -n "$stray" ]; then
+  echo "OGOHLANTIRISH: $stray ham mavjud — bu eski nusxa bo'lishi mumkin."
+  echo "  Django buyruqlarini faqat shu papkada ishga tushiring: $PROJECT_DIR"
+  echo "  (aks holda \"No module named 'config'\" yoki \"not a git repository\" chiqadi)"
+fi
+
 # --- 1. Python versiyasi ----------------------------------------------
 if [ ! -x "$PYTHON_BIN" ]; then
   echo "XATO: $PYTHON_BIN topilmadi. PythonAnywhere'da mavjud versiyalar:" >&2
@@ -106,6 +131,24 @@ if [ ! -f "$PROJECT_DIR/.env" ]; then
   echo "  Tayyor mazmun: loyihadagi .env.pythonanywhere fayli."
 fi
 
+# --- 4b. Ixtiyoriy: Django qadamlarini shu yerda bajarish -----------
+# RENAME_DB=1 → bazadagi eski ilova nomini tuzatadi (bir martalik)
+# RUN_DJANGO=1 → migrate + collectstatic
+if [ "${RENAME_DB:-0}" = "1" ]; then
+  echo
+  echo "=== Baza: ilova nomini tuzatish (bir martalik) ==="
+  "$VENV_PY" scripts/rename_app_in_db.py "$PROJECT_DIR/db.sqlite3"
+fi
+
+if [ "${RUN_DJANGO:-0}" = "1" ]; then
+  echo
+  echo "=== migrate ==="
+  "$VENV_PY" manage.py migrate
+  echo
+  echo "=== collectstatic ==="
+  "$VENV_PY" manage.py collectstatic --noinput
+fi
+
 # --- 5. Web bo'limi uchun qiymatlar -----------------------------------
 cat <<EOF
 
@@ -139,13 +182,18 @@ cat <<EOF
       application = get_wsgi_application()
 
 =====================================================================
- Keyingi qadamlar (virtualenv ichida, loyiha papkasida)
+ Keyingi qadamlar — AVVAL loyiha papkasiga o'ting!
 =====================================================================
+  cd $PROJECT_DIR
   source $VENV_BIN/activate
   python scripts/rename_app_in_db.py $PROJECT_DIR/db.sqlite3   # bir marta
   python manage.py migrate
   python manage.py collectstatic --noinput
   # keyin Web bo'limida "Reload" tugmasini bosing
+
+  Hammasini skriptning o'zi to'g'ri papkada bajarsin desangiz:
+  cd $PROJECT_DIR
+  RENAME_DB=1 RUN_DJANGO=1 bash scripts/pythonanywhere_setup.sh
 
   Python versiyasi: Web bo'limida tanlangan versiya bilan
   bir xil bo'lishi shart — $("$PYTHON_BIN" --version 2>&1)
