@@ -36,6 +36,8 @@ my-portfolio/
 ├── media/                  # Admin panel orqali yuklangan rasmlar
 ├── game_sources/           # O'yinlarning asl (manba) fayllari
 ├── scripts/                # Yordamchi skriptlar
+│   ├── rename_app_in_db.py         # bazadagi ilova nomini portfolio ga o'tkazadi
+│   └── pythonanywhere_setup.sh     # server uchun virtualenv ("env") tayyorlaydi
 ├── staticfiles/            # collectstatic natijasi (gitga qo'shilmaydi)
 ├── db.sqlite3              # Baza fayli
 ├── manage.py
@@ -48,7 +50,9 @@ my-portfolio/
 ## O'rnatish (lokal kompyuterda)
 
 ```bash
-# 1. Kerakli kutubxonalar
+# 1. Virtualenv va kerakli kutubxonalar
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # 2. Maxfiy sozlamalar faylini yaratish
@@ -124,23 +128,52 @@ shundan o'qiladi. Tayyor namuna loyihada: **`.env.pythonanywhere`**
 Eslatma: PythonAnywhere'ning **bepul** hisobida tashqi SMTP yopiq, ammo
 Gmail SMTP ruxsat etilgan — shuning uchun `smtp.gmail.com:587` ishlaydi.
 
-### 2. Kod va baza
+### 2. Virtualenv ("env") va paketlar
+
+Veb-ilova uchun tanlangan Python versiyasi bilan virtualenv versiyasi
+**bir xil** bo'lishi shart. Hujjatdagi 3 qadamni bitta skript bajaradi:
+
+```bash
+cd ~/my-portfolio
+bash scripts/pythonanywhere_setup.sh
+# boshqa Python versiyasi kerak bo'lsa:
+# PYTHON_BIN=/usr/bin/python3.12 bash scripts/pythonanywhere_setup.sh
+```
+
+Skript `~/.virtualenvs/portfolio` da virtualenv yaratadi, `requirements.txt`
+ni o'rnatadi, `manage.py check` ni ishga tushiradi va Web bo'limiga
+kiritiladigan qiymatlarni (Source code, Virtualenv yo'li, statik mappinglar,
+WSGI qatorlari) chop etadi.
+
+Hujjatdagi usulda qo'lda ham mumkin:
+
+```bash
+mkvirtualenv portfolio --python=/usr/bin/python3.13
+workon portfolio
+pip install -r requirements.txt
+```
+
+### 3. Baza va statik fayllar
 
 ```bash
 git pull
 python scripts/rename_app_in_db.py /home/abdurahmon1006/my-portfolio/db.sqlite3   # faqat birinchi marta
-pip install -r requirements.txt
 python manage.py migrate
 python manage.py collectstatic --noinput
 ```
 
-### 3. Web bo'limi
+### 4. Web bo'limi
 
 - **Web → Reload** tugmasini bosing.
+- **Virtualenv**: `/home/abdurahmon1006/.virtualenvs/portfolio`
+  (yoki shunchaki nomi: `portfolio`).
+- **Source code / Working directory**: `/home/abdurahmon1006/my-portfolio`.
 - **Static files** bo'limida ikki mapping qo'shing:
   `/static/` → `/home/abdurahmon1006/my-portfolio/staticfiles`
   `/media/` → `/home/abdurahmon1006/my-portfolio/media`
   (`DEBUG=False` bo'lganda Django statik fayllarni o'zi bermaydi.)
+- **WSGI config** faylida loyiha yo'li `sys.path` ga qo'shilganini tekshiring:
+  `path = '/home/abdurahmon1006/my-portfolio'`.
 
 ### Sayt 500 xato bersa
 
