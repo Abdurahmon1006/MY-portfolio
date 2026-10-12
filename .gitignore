@@ -1,5 +1,7 @@
-# Maxfiy sozlamalar
+# Maxfiy sozlamalar (.env.example dan tashqari hammasi)
 .env
+.env.*
+!.env.example
 
 # Python
 __pycache__/

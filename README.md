@@ -41,6 +41,7 @@ my-portfolio/
 ├── manage.py
 ├── requirements.txt
 ├── .env / .env.example     # Maxfiy sozlamalar (haqiqiy .env gitga qo'shilmaydi)
+├── .env.pythonanywhere     # Server uchun tayyor .env (gitga qo'shilmaydi)
 └── .gitignore
 ```
 
@@ -98,16 +99,57 @@ python manage.py load_games --update   # mavjudlarini ham yangilash
 
 ## Serverga joylash (PythonAnywhere)
 
+### 1. Maxfiy sozlamalar (`.env`)
+
+Serverda `.env` fayli **majburiy**: `SECRET_KEY`, domen va email paroli
+shundan o'qiladi. Tayyor namuna loyihada: **`.env.pythonanywhere`**
+(gitga qo'shilmaydi, chunki ichida maxfiy qiymatlar bor).
+
+1. PythonAnywhere → **Files** → loyiha papkasi (masalan
+   `/home/abdurahmon1006/my-portfolio/`) → **New file** → nomi: `.env`
+2. `.env.pythonanywhere` mazmunini shu faylga nusxalab qo'ying.
+3. `EMAIL_HOST_PASSWORD` ni Gmail'dagi **yangi** App Password bilan
+   almashtiring (eski parol GitHub tarixida oshkor bo'lgan).
+
+`.env` ichidagi asosiy qatorlar:
+
+| O'zgaruvchi | Serverdagi qiymat |
+| --- | --- |
+| `DJANGO_SECRET_KEY` | yangi generatsiya qilingan kalit |
+| `DJANGO_DEBUG` | `False` |
+| `DJANGO_ALLOWED_HOSTS` | `abdurahmon1006.pythonanywhere.com` |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://abdurahmon1006.pythonanywhere.com` |
+| `EMAIL_HOST_USER` / `EMAIL_HOST_PASSWORD` | Gmail manzil + App Password |
+
+Eslatma: PythonAnywhere'ning **bepul** hisobida tashqi SMTP yopiq, ammo
+Gmail SMTP ruxsat etilgan — shuning uchun `smtp.gmail.com:587` ishlaydi.
+
+### 2. Kod va baza
+
 ```bash
 git pull
-python scripts/rename_app_in_db.py /home/user/site/db.sqlite3   # faqat birinchi marta
+python scripts/rename_app_in_db.py /home/abdurahmon1006/my-portfolio/db.sqlite3   # faqat birinchi marta
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py collectstatic --noinput
-# keyin Web bo'limida "Reload" tugmasini bosing
 ```
 
-Serverda `.env` faylida `DJANGO_DEBUG=False` qilib qo'ying.
+### 3. Web bo'limi
+
+- **Web → Reload** tugmasini bosing.
+- **Static files** bo'limida ikki mapping qo'shing:
+  `/static/` → `/home/abdurahmon1006/my-portfolio/staticfiles`
+  `/media/` → `/home/abdurahmon1006/my-portfolio/media`
+  (`DEBUG=False` bo'lganda Django statik fayllarni o'zi bermaydi.)
+
+### Sayt 500 xato bersa
+
+1. **Web → Error log** ni ochib, birinchi xatoni o'qing.
+2. Ko'p uchraydigan sabab — eski bazada ilova nomi hali `apps`:
+   `python scripts/rename_app_in_db.py <db yo'li>` ni bir marta ishga tushiring.
+3. `.env` fayli aynan shu nom bilan loyiha papkasida turganini tekshiring
+   (nusxa `.env.txt` bo'lib qolsa o'qilmaydi).
+4. Web bo'limida **Reload** qiling.
 
 ## Xavfsizlik
 
@@ -115,7 +157,7 @@ Serverda `.env` faylida `DJANGO_DEBUG=False` qilib qo'ying.
 - Eski `SECRET_KEY` va Gmail paroli GitHub tarixida qolgan. Ularni
   **almashtirish tavsiya etiladi**: Gmail hisobida App Password'ni o'chirib,
   yangisini `.env` ga yozing.
-- `.env`, `staticfiles/` va `temp_images/` gitga qo'shilmaydi.
+- `.env`, `.env.pythonanywhere`, `staticfiles/` va `temp_images/` gitga qo'shilmaydi.
 
 ## Texnologiyalar
 
