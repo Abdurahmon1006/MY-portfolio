@@ -1,14 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 
 <head>
 <meta charset="UTF-8">
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <meta content="width=device-width,initial-scale=1" name="viewport">
-<meta content="description" name="description">
+<meta content="Abdurahmon Kenjaboyev — dasturchi va dizayner portfoliosi" name="description">
 <meta name="google" content="notranslate" />
-<meta content="Mashup templates have been developped by Orson.io team" name="author">
+<meta content="Abdurahmon Kenjaboyev" name="author">
 
 <!-- google ads -->
 
@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!--<title>Title page</title>-->
+<title>{% block title %}My Portfolio{% endblock %}</title>
 <link href="{% static './main.3f6952e4.css' %}" rel="stylesheet">
 
 <!-- Zamonaviy navbar uchun CSS va shrift -->
@@ -48,6 +48,16 @@
   transition: box-shadow 0.3s;
   position: static;
   z-index: 10;
+}
+
+.navbar .navbar-brand {
+  color: #fff !important;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  padding: 18px 15px !important;
+  height: auto;
 }
 
 .navbar .navbar-nav > li > a {
@@ -227,6 +237,7 @@ animate();
 <header>
 <nav class="navbar navbar-default">
   <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}" title="My Portfolio">My Portfolio</a>
     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -259,6 +270,16 @@ animate();
 </nav>
 </header>
 
+{% if messages %}
+<div class="container" style="margin-top: 20px;">
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} text-center">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
 {% block container %}
 {% endblock %}
 
@@ -266,7 +287,14 @@ animate();
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <p>© UNTITLED | Website created with <a href="http://www.mashup-template.com/" title="Create website with free html template">Mashup Template</a> / <a href="https://www.unsplash.com/" title="Beautiful Free Images">Unsplash</a></p>
+        <p>
+          © My Portfolio — Abdurahmon Kenjaboyev |
+          <a href="mailto:abdurahmonk1987@gmail.com">abdurahmonk1987@gmail.com</a> |
+          <a href="tel:+998996605248">+998 99 660 52 48</a> |
+          <a href="https://t.me/ABDURAHMON_KENJABOYEV">Telegram: @ABDURAHMON_KENJABOYEV</a> |
+          <a href="https://github.com/Abdurahmon1006">GitHub: Abdurahmon1006</a> |
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Murg%27ob%20ko%27chasi%2010-uy%2C%20Yashnobod%20tumani%2C%20Toshkent">Toshkent, Yashnobod tumani</a> |
+          Website created with <a href="http://www.mashup-template.com/" title="Create website with free html template">Mashup Template</a> / <a href="https://www.unsplash.com/" title="Beautiful Free Images">Unsplash</a></p>
       </div>
     </div>
   </div>

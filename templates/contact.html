@@ -1,32 +1,13 @@
 {% extends 'base.html' %}
-{% block container %}
 {% load static %}
 
-<title>ALOQA</title>
+{% block title %}Aloqa | My Portfolio{% endblock %}
+
+{% block container %}
 
 <script>
-function matnniNusxala1() {
-  var matn = document.getElementById("matn1").innerText;
-  var input = document.createElement("textarea");
-  input.value = matn;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand("copy");
-  document.body.removeChild(input);
-  alert("Matn nusxalandi: " + matn);
-}
-function matnniNusxala2() {
-  var matn = document.getElementById("matn2").innerText;
-  var input = document.createElement("textarea");
-  input.value = matn;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand("copy");
-  document.body.removeChild(input);
-  alert("Matn nusxalandi: " + matn);
-}
-function matnniNusxala3() {
-  var matn = document.getElementById("matn3").innerText;
+function matnniNusxala(id) {
+  var matn = document.getElementById(id).innerText;
   var input = document.createElement("textarea");
   input.value = matn;
   document.body.appendChild(input);
@@ -105,58 +86,71 @@ function matnniNusxala3() {
         </div>
         <div class="row">
           <div class="col-md-10 col-md-offset-1">
-            <form action="" class="reveal-content">
+            <form action="{% url 'contact' %}" method="post" class="reveal-content">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-md-7">
                   <div class="form-group">
-                    <input type="email" class="form-control" id="elektron pochta"
-                      placeholder="elektron pochta">
+                    <input type="text" class="form-control" id="name" name="name"
+                      placeholder="ismingiz" required>
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" id="xabar nima xaqida"
-                      placeholder="xabar nima xaqida">
+                    <input type="email" class="form-control" id="email" name="email"
+                      placeholder="elektron pochta" required>
                   </div>
                   <div class="form-group">
-                    <textarea class="form-control" rows="5"
-                      placeholder=" xabaringizni kiriting "></textarea>
+                    <textarea class="form-control" rows="5" id="message" name="message"
+                      placeholder="xabaringizni kiriting" required></textarea>
                   </div>
                   <button type="submit" class="btn btn-default btn-lg">Yuborish</button>
                 </div>
                 <div class="col-md-5 address-container">
                   <ul class="list-unstyled">
                     <li>
-                      <button onclick="matnniNusxala1()" class="btn btn-link">
+                      <button onclick="matnniNusxala('matn1')" class="btn btn-link">
                         <i class="fa fa-envelope"></i>
                         <span id="matn1">abdurahmonk1987@gmail.com</span>
                       </button>
                     </li>
                     <li>
-                      <button onclick="matnniNusxala2()" class="btn btn-link">
+                      <button onclick="matnniNusxala('matn2')" class="btn btn-link">
                         <i class="fa fa-envelope"></i>
                         <span id="matn2">abdurahmonk1006@gmail.com</span>
                       </button>
                     </li>
                     <li>
-                      <button onclick="matnniNusxala3()" class="btn btn-link">
+                      <button onclick="matnniNusxala('matn3')" class="btn btn-link">
                         <i class="fa fa-phone"></i>
-                        <span id="matn3">+998 91 113 60 96</span>
+                        <span id="matn3">+998 99 660 52 48</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button onclick="matnniNusxala('matn4')" class="btn btn-link">
+                        <i class="fa fa-telegram"></i>
+                        <span id="matn4">@ABDURAHMON_KENJABOYEV</span>
+                      </button>
+                    </li>
+                    <li>
+                      <button onclick="matnniNusxala('matn5')" class="btn btn-link">
+                        <i class="fa fa-github"></i>
+                        <span id="matn5">github.com/Abdurahmon1006</span>
                       </button>
                     </li>
                   </ul>
-                  <ul>
-                    <span class="fa-icon">
-                      <i class="fa fa fa-map-marker" aria-hidden="true"></i></span>
-                    <li2>O'zbekiston Toshkent viloyati Chinoz tumani</li2>
+                  <ul class="list-unstyled">
+                    <li>
+                      <span class="fa-icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                      <a href="https://www.google.com/maps/search/?api=1&amp;query=Murg%27ob%20ko%27chasi%2010-uy%2C%20Yashnobod%20tumani%2C%20Toshkent" target="_blank" rel="noopener">
+                        Toshkent shahar, Yashnobod tumani, Marifat MFY, Murg'ob ko'chasi, 10-uy
+                      </a>
+                    </li>
                   </ul>
                   <h3>Ijtimoiy tarmoqlarda menga obuna bo'ling</h3>
-                  <a href="http://www.facebook.com" title="facebook" class="fa-icon">
-                    <i class="fa fa-facebook"></i>
+                  <a href="https://t.me/ABDURAHMON_KENJABOYEV" title="telegram" class="fa-icon">
+                    <i class="fa fa-telegram"></i>
                   </a>
-                  <a href="http://www.twitter.com" title="twitter" class="fa-icon">
-                    <i class="fa fa-twitter"></i>
-                  </a>
-                  <a href="http://www.linkedin.com" title="linkedin" class="fa-icon">
-                    <i class="fa fa-linkedin"></i>
+                  <a href="https://github.com/Abdurahmon1006" title="github" target="_blank" rel="noopener" class="fa-icon">
+                    <i class="fa fa-github"></i>
                   </a>
                 </div>
               </div>

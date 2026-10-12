@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.core.files import File
 from django.core.files.storage import default_storage
-from apps.models import game
+from portfolio.models import game
 
 
 class Command(BaseCommand):
@@ -19,8 +19,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # O'yinlar papkasini aniqlash
-        games_folder = Path(settings.BASE_DIR) / "o'yinlar"
+        # O'yinlar papkasini aniqlash (settings.GAME_SOURCES_DIR)
+        games_folder = Path(settings.GAME_SOURCES_DIR)
         
         if not games_folder.exists():
             raise CommandError(f"O'yinlar papkasi topilmadi: {games_folder}")
