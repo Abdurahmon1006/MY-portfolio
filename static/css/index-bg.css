@@ -1,0 +1,41 @@
+/* =====================================================================
+   Bosh sahifasi (`/`) uchun fazoviy orqa fon — faqat bosh sahifa uchun.
+   Boshqa sahifalar bu faylni yuklamaydi.
+   ===================================================================== */
+
+/* Har safar `background-image-container` klassi `index.html` 'da faqat bosh
+   sahifada ishlatiladi. Fakat bosh sahifa uchun ushbu CSS orqali faqat
+   biz bergan `space.jpg` qo'yiladi, hozirgi JS zarralari sozlamalari
+   o'zgarmaydi — bu farq qiladi, chunki asosiy JS `movingBackgroundImage`
+   orqali o'zgarishni boshqaradi. Shunday qilib, biz hozirdagi qanday
+   vaqtinchalik o'zgarishlarni yo'qotmaymiz. */
+
+.hero-full-container.background-image-container {
+  background-image: url("{% static 'assets/images/space.jpg' %}");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* Funic — asosiy pushti */
+}
+
+
+/* Shifrlangan overlay — matn oq rangda o'qilishi uchun */
+.hero-full-container.background-image-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+/* Konteyner ichidagi interaktdi umumiy elementlarni orqa darajasiga solish */
+.hero-full-container.background-image-container .hero-full-wrapper,
+.hero-full-container.background-image-container .text-content {
+  position: relative;
+  z-index: 2;
+}

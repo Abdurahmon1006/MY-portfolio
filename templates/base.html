@@ -120,6 +120,12 @@ canvas {
   background: black;
 }
 </style>
+
+<!-- Sahifaga xos uslublar (masalan, static/css/cards.css) -->
+{% block extra_css %}{% endblock %}
+
+<!-- Moslashuvchan dizayn tuzatmalari: har doim ENG OXIRIDA yuklanadi -->
+<link href="{% static 'css/custom.css' %}" rel="stylesheet">
 </head>
 <body class="">
 
@@ -285,18 +291,15 @@ animate();
 
 <footer class="footer-container text-center">
   <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <p>
-          © My Portfolio — Abdurahmon Kenjaboyev |
-          <a href="mailto:abdurahmonk1987@gmail.com">abdurahmonk1987@gmail.com</a> |
-          <a href="tel:+998996605248">+998 99 660 52 48</a> |
-          <a href="https://t.me/ABDURAHMON_KENJABOYEV">Telegram: @ABDURAHMON_KENJABOYEV</a> |
-          <a href="https://github.com/Abdurahmon1006">GitHub: Abdurahmon1006</a> |
-          <a href="https://www.google.com/maps/search/?api=1&amp;query=Murg%27ob%20ko%27chasi%2010-uy%2C%20Yashnobod%20tumani%2C%20Toshkent">Toshkent, Yashnobod tumani</a> |
-          Website created with <a href="http://www.mashup-template.com/" title="Create website with free html template">Mashup Template</a> / <a href="https://www.unsplash.com/" title="Beautiful Free Images">Unsplash</a></p>
-      </div>
-    </div>
+    <nav class="footer-links" aria-label="Aloqa havolalari">
+      <a href="mailto:abdurahmonk1987@gmail.com"><i class="fa fa-envelope"></i>abdurahmonk1987@gmail.com</a>
+      <a href="tel:+998996605248"><i class="fa fa-phone"></i>+998 99 660 52 48</a>
+      <a href="https://t.me/ABDURAHMON_KENJABOYEV" target="_blank" rel="noopener"><i class="fa fa-telegram"></i>Telegram</a>
+      <a href="https://github.com/Abdurahmon1006" target="_blank" rel="noopener"><i class="fa fa-github"></i>GitHub</a>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Murg%27ob%20ko%27chasi%2010-uy%2C%20Yashnobod%20tumani%2C%20Toshkent" target="_blank" rel="noopener"><i class="fa fa-map-marker"></i>Toshkent, Yashnobod tumani</a>
+    </nav>
+    <p class="footer-note">© My Portfolio — Abdurahmon Kenjaboyev</p>
+    <p class="footer-note footer-note-soft">Shablon: <a href="http://www.mashup-template.com/" title="Create website with free html template">Mashup Template</a> · Rasmlar: <a href="https://www.unsplash.com/" title="Beautiful Free Images">Unsplash</a></p>
   </div>
 </footer>
 

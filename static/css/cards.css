@@ -1,0 +1,413 @@
+/* =====================================================================
+   Kartalar dizayni — Yutuqlar (works.html) va O'yinlar (games.html)
+   uchun umumiy uslublar.
+   Ilgari bu kod ikkala shablonga ikki marta ko'chirilgan edi (250+ qator);
+   endi bitta faylda. Sahifalar buni {% block extra_css %} orqali ulaydi.
+
+   Tartib: bu fayl main.*.css (Mashup mavzusi) dan keyin, lekin
+   custom.css dan OLDIN yuklanadi — shuning uchun tuzatishlar
+   custom.css da turadi.
+   ===================================================================== */
+
+/* ---------- Umumiy karta ---------- */
+.card-container {
+  background: rgba(255, 255, 255, 0.97);
+  border: 2px solid #007BFF;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0, 123, 255, 0.10), 0 1.5px 8px rgba(0, 0, 0, 0.08);
+  padding: 0 0 18px 0;
+  margin: 24px 0;
+  transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+  min-height: 320px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  color: #222;
+}
+
+.card-container h3 {
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.card-container h4 {
+  color: #007BFF;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.card-container p {
+  color: #444;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+/* Sichqoncha/klaviatura bo'lgan qurilmalardagina "ko'tarilish" effekti —
+   sensorli ekranda karta bosilganda siljib ketmaydi. */
+@media (hover: hover) and (pointer: fine) {
+  .card-container:hover {
+    box-shadow: 0 8px 32px rgba(0, 123, 255, 0.18), 0 3px 16px rgba(0, 0, 0, 0.12);
+    border-color: #0056b3;
+    transform: translateY(-6px);
+  }
+}
+
+.card-container .card-image {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-container .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s, box-shadow 0.25s;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-container:hover .card-image img {
+    transform: scale(1.04);
+  }
+}
+
+.card-container .card-body {
+  padding: 18px 18px 0 18px;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-container .btn {
+  border-radius: 20px;
+  border: 2px solid #007BFF;
+  color: #007BFF;
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 600;
+  padding: 6px 22px;
+  margin-top: auto;
+  white-space: normal;
+}
+
+.card-container .btn:hover,
+.card-container .btn:focus {
+  background: #007BFF;
+  color: #fff;
+  border-color: #0056b3;
+}
+
+.mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+/* ---------- Yutuqlar sahifasi ---------- */
+.section-title-blue {
+  color: #007BFF;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+}
+
+.section-desc-blue {
+  color: #007BFF;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  margin-top: 8px;
+  text-shadow: 0 1px 4px rgba(0, 123, 255, 0.08);
+}
+
+.yutuq-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.yutuq-oltin { border-color: #FFD700 !important; }
+.yutuq-oltin:hover {
+  border-color: #FFA500 !important;
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12);
+}
+
+.yutuq-kumush { border-color: #C0C0C0 !important; }
+.yutuq-kumush:hover {
+  border-color: #A9A9A9 !important;
+  box-shadow: 0 8px 32px rgba(192, 192, 192, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12);
+}
+
+.yutuq-bronza { border-color: #CD7F32 !important; }
+.yutuq-bronza:hover {
+  border-color: #A0522D !important;
+  box-shadow: 0 8px 32px rgba(205, 127, 50, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12);
+}
+
+.yutuq-maxsus { border-color: #9932CC !important; }
+.yutuq-maxsus:hover {
+  border-color: #8A2BE2 !important;
+  box-shadow: 0 8px 32px rgba(153, 50, 204, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12);
+}
+
+.badge-oltin { background: linear-gradient(45deg, #FFD700, #FFA500); }
+.badge-kumush { background: linear-gradient(45deg, #C0C0C0, #A9A9A9); }
+.badge-bronza { background: linear-gradient(45deg, #CD7F32, #A0522D); }
+.badge-maxsus { background: linear-gradient(45deg, #9932CC, #8A2BE2); }
+
+.btn-group-yutuq,
+.btn-group-oyun {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.btn-daraja,
+.btn-kategoriya {
+  flex: 1 1 auto;
+  min-width: 110px;
+  cursor: default;
+}
+
+.btn-daraja:hover,
+.btn-kategoriya:hover {
+  background: transparent !important;
+  color: #007BFF !important;
+  transform: none;
+  cursor: default;
+}
+
+.btn-batafsil {
+  background: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+  padding: 6px 16px;
+  font-size: 12px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.btn-batafsil:hover,
+.btn-batafsil:focus {
+  background: #138496;
+  border-color: #117a8b;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Yutuq modali */
+.modal-yutuq .modal-dialog {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.modal-yutuq .modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-yutuq .modal-header {
+  background: linear-gradient(135deg, #007BFF, #0056b3);
+  color: white;
+  border-radius: 15px 15px 0 0;
+  padding: 20px 25px;
+  border-bottom: none;
+}
+
+.modal-yutuq .modal-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-yutuq .modal-body { padding: 25px; }
+
+.modal-yutuq .modal-footer {
+  border-top: 1px solid #eee;
+  padding: 15px 25px;
+  border-radius: 0 0 15px 15px;
+}
+
+.yutuq-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.yutuq-image-modal {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.yutuq-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.yutuq-date { color: #6c757d; font-weight: 600; }
+
+.yutuq-level {
+  background: #007BFF;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.yutuq-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #495057;
+}
+
+/* ---------- O'yinlar sahifasi ---------- */
+.oyun-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.oyun-arkada { border-color: #FF6B6B !important; }
+.oyun-arkada:hover { border-color: #FF5252 !important; box-shadow: 0 8px 32px rgba(255, 107, 107, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-puzzle { border-color: #4ECDC4 !important; }
+.oyun-puzzle:hover { border-color: #26C6DA !important; box-shadow: 0 8px 32px rgba(78, 205, 196, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-strategiya { border-color: #45B7D1 !important; }
+.oyun-strategiya:hover { border-color: #2196F3 !important; box-shadow: 0 8px 32px rgba(69, 183, 209, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-sport { border-color: #96CEB4 !important; }
+.oyun-sport:hover { border-color: #66BB6A !important; box-shadow: 0 8px 32px rgba(150, 206, 180, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-jang { border-color: #FECA57 !important; }
+.oyun-jang:hover { border-color: #FFC107 !important; box-shadow: 0 8px 32px rgba(254, 202, 87, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-sarguzasht { border-color: #FF9FF3 !important; }
+.oyun-sarguzasht:hover { border-color: #E91E63 !important; box-shadow: 0 8px 32px rgba(255, 159, 243, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.oyun-boshqa { border-color: #A0A0A0 !important; }
+.oyun-boshqa:hover { border-color: #757575 !important; box-shadow: 0 8px 32px rgba(160, 160, 160, 0.25), 0 3px 16px rgba(0, 0, 0, 0.12); }
+
+.badge-arkada { background: linear-gradient(45deg, #FF6B6B, #FF5252); }
+.badge-puzzle { background: linear-gradient(45deg, #4ECDC4, #26C6DA); }
+.badge-strategiya { background: linear-gradient(45deg, #45B7D1, #2196F3); }
+.badge-sport { background: linear-gradient(45deg, #96CEB4, #66BB6A); }
+.badge-jang { background: linear-gradient(45deg, #FECA57, #FFC107); }
+.badge-sarguzasht { background: linear-gradient(45deg, #FF9FF3, #E91E63); }
+.badge-boshqa { background: linear-gradient(45deg, #A0A0A0, #757575); }
+
+.btn-oynash {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 25px;
+  transition: all 0.2s;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-oynash:hover,
+.btn-oynash:focus {
+  background: #218838;
+  border-color: #1e7e34;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.oyun-icon { font-size: 24px; }
+
+/* ---------- Telefon ekranlari ---------- */
+@media (max-width: 767px) {
+  .card-container {
+    min-height: 0;
+    margin: 0 0 20px 0;
+    border-radius: 14px;
+  }
+
+  .card-container .card-image {
+    height: 160px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .card-container .card-image img {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .card-container .card-body { padding: 16px 16px 0 16px; }
+
+  .btn-daraja,
+  .btn-kategoriya { min-width: 100%; }
+
+  .card-container .btn-oynash,
+  .card-container .btn-batafsil { min-width: 100%; }
+
+  .section-title-blue { font-size: 2.2rem; letter-spacing: 1px; }
+
+  .section-desc-blue { font-size: 1.25rem; }
+
+  /* Uzun matnli kartalar modali ekranga sig'sin */
+  .modal-yutuq .modal-dialog { margin: 10px; }
+  .modal-yutuq .modal-body { padding: 18px; }
+  .yutuq-info { flex-direction: column; align-items: flex-start; }
+}

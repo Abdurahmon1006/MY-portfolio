@@ -32,6 +32,9 @@ my-portfolio/
 │       └── load_games.py   # O'yinlarni game_sources/ dan bazaga yuklaydi
 ├── templates/              # HTML shablonlari (base.html + sahifalar)
 ├── static/                 # CSS, JS, rasmlar (main.*.css, main.*.js)
+│   ├── css/
+│   │   ├── custom.css      # moslashuvchan (responsive) dizayn tuzatmalari
+│   │   └── cards.css       # yutuq/o'yin kartalari uslublari (umumiy)
 │   └── oyinlar/            # load_games ko'chirib qo'yadigan o'yinlar
 ├── media/                  # Admin panel orqali yuklangan rasmlar
 ├── game_sources/           # O'yinlarning asl (manba) fayllari
@@ -198,14 +201,66 @@ python manage.py collectstatic --noinput
 `manage.py` buyruqlari **faqat** loyiha papkasida ishlaydi: papka ichida
 `manage.py`, `requirements.txt` va `config/settings.py` birga turishi shart.
 
-### Sayt 500 xato bersa
+### Sayt "Something went wrong" / 500 xato bersa
 
-1. **Web → Error log** ni ochib, birinchi xatoni o'qing.
-2. Ko'p uchraydigan sabab — eski bazada ilova nomi hali `apps`:
-   `python scripts/rename_app_in_db.py <db yo'li>` ni bir marta ishga tushiring.
-3. `.env` fayli aynan shu nom bilan loyiha papkasida turganini tekshiring
-   (nusxa `.env.txt` bo'lib qolsa o'qilmaydi).
-4. Web bo'limida **Reload** qiling.
+Brauzerda sabab ko'rinmaydi (`DEBUG=False`), shuning uchun birinchi qadam —
+**Error log**. PythonAnywhere → **Consoles → Bash**:
+
+```bash
+tail -n 40 /var/log/abdurahmon1006.pythonanywhere.com.error.log
+```
+
+(yoki Web bo'limi → **Error log** havolasi). Log'dagi **birinchi** xato
+qatorini quyidagi jadval bilan solishtiring:
+
+| Error log'dagi xato | Sabab | Yechim |
+| --- | --- | --- |
+| Web sahifasida `No virtualenv detected at this path` | **Virtualenv** maydonida `.env` faylining yo'li turadi | maydonni tozalab papka yo'lini yozing: `/home/Abdurahmon1006/.virtualenvs/portfolio` |
+| `ModuleNotFoundError: No module named 'config'` | **Source code** maydoni bo'sh yoki WSGI faylida loyiha yo'li `sys.path` ga qo'shilmagan | Source code = `/home/Abdurahmon1006/MY-portfolio`; WSGI'da `path = '/home/Abdurahmon1006/MY-portfolio'` bo'lsin |
+| `ModuleNotFoundError: No module named 'django'` | virtualenv yo'q yoki noto'g'ri | `cd ~/MY-portfolio && bash scripts/pythonanywhere_setup.sh`, so'ng Web → Reload |
+| `no such table: portfolio_yutuq` yoki `apps_yutuq` | eski bazada ilova nomi hali `apps` | `python scripts/rename_app_in_db.py <db yo'li>` (bir marta) |
+| `DisallowedHost` / `ALLOWED_HOSTS` | `.env` dagi domen | `DJANGO_ALLOWED_HOSTS=Abdurahmon1006.pythonanywhere.com` |
+| `Origin checking failed` (CSRF) | `.env` dagi CSRF domeni | `DJANGO_CSRF_TRUSTED_ORIGINS=https://Abdurahmon1006.pythonanywhere.com` |
+| sozlamalar `.env` ni ko'rmayapti (`SECRET_KEY` xatosi) | `.env` fayli yo'q yoki nomi boshqa (`.env.txt`, `.env.pythonanywhere`) | loyiha papkasida aynan **`.env`** bo'lsin |
+
+Qo'shimcha: `.env` fayli aynan shu nom bilan loyiha papkasida turishi shart —
+nusxa `.env.txt` bo'lib qolsa, Django uni o'qimaydi.
+
+**Virtualenvsiz (eng tez) yo'l** — virtualenv yaratishda muammo bo'lsa,
+Web bo'limidagi **Virtualenv maydonini butunlay bo'sh** qoldiring:
+
+```bash
+cd ~/MY-portfolio
+pip install --user -r requirements.txt
+```
+
+Shunda sayt tizim Python 3.13 ni ishlatadi, paketlar esa `~/.local` ichidan
+olinadi. Bunda ham **Source code** maydoni to'ldirilgan va statik mappinglar
+qo'shilgan bo'lishi shart.
+
+Har qanday o'zgarishdan keyin Web bo'limida **Reload** qilishni unutmang:
+Web maydonlari faqat Reload'dan keyin kuchga kiradi.
+
+## Dizayn (responsive) tuzatmalari
+
+Sayt telefon, planshet va kompyuterda bir xil to'g'ri ko'rinishi uchun
+`static/css/custom.css` qo'shilgan. U mavzu (`main.*.css`) va sahifa
+ichidagi uslublardan **keyin** yuklanadi va quyidagilarni tuzatadi:
+
+| Muammo | Yechim |
+| --- | --- |
+| Telefonda bosh sahifa sarlavhasi (70px) ekranga sig'may, sahifa yon tomonga surilardi | `clamp()` bilan ekranga moslashadigan o'lcham + `table-layout: fixed` |
+| Planshet/telefonda (`≤992px`) yutuq va o'yin kartalari bir-birining ustiga chiqardi | mavzuning `.card-container{-10em}` qoidasi bekor qilindi, kartalar teng balandlikda |
+| Footer matni qora fonda qora rangda ko'rinmasdi | o'qiladigan rang + havolalar uchun "pill" tartibi (telefonda o'raladi) |
+| body oq foni chetlarda oq chiziq bo'lib ko'rinardi | fon qorong'i, kulrang chiziq olib tashlandi |
+| Aloqa formasi maydonlari butunlay shaffof edi | o'qiladigan fon, `#4da3ff` matn, fokus halqasi, 46px+ balandlik |
+| Komponentlar sahifasida qora matn/tugmalar ko'rinmasdi | matn va tugmalar qorong'i fonga moslashtirildi |
+| Planshetda (768px) Bootstrap konteyneri sig'may, 8px siljish berardi | konteyner suyuq (fluid) qilindi |
+
+Kartalar uslublari avval `works.html` va `games.html` ichida ikki marta
+(har biri ~250 qator) yozilgan edi — endi `static/css/cards.css` da.
+Statik fayllarni serverga chiqarish uchun avvalgidek
+`python manage.py collectstatic --noinput` ishlatiladi.
 
 ## Xavfsizlik
 

@@ -1,0 +1,462 @@
+/* =====================================================================
+   My Portfolio — moslashuvchan (responsive) dizayn tuzatmalari
+   =====================================================================
+   Bu fayl main.*.css (Mashup mavzusi) va sahifa ichidagi uslublardan
+   KEYIN yuklanadi, shuning uchun mavzu bilan to'qnashuvlarni tuzatadi.
+
+   Tuzatilgan asosiy muammolar:
+     1) Telefonda bosh sahifa sarlavhasi (70px) ekranga sig'may,
+        gorizontal siljish (skroll) hosil qilardi.
+     2) ≤992px da mavzuning `.card-container` qoidasi kartalarni
+        -10em tepaga tortib, ularni bir-birining ustiga chiqarardi.
+     3) Footer matni qora fonda qora rangda edi — ko'rinmasdi.
+     4) body oq foni chetlarda oq chiziq bo'lib ko'rinardi.
+     5) Aloqa formasi maydonlari butunlay shaffof edi (kiritish qiyin).
+   ===================================================================== */
+
+/* ---------- 1. Ranglar va asos ---------- */
+:root {
+  --bg: #0b0d12;
+  --bg-soft: #141a24;
+  --line: rgba(255, 255, 255, 0.12);
+  --text: #e8eef8;
+  --muted: rgba(232, 238, 248, 0.72);
+  --blue: #2b8fff;
+  --blue-strong: #0066ff;
+  --radius: 16px;
+}
+
+html,
+body {
+  background-color: var(--bg);
+}
+
+/* Mavzu body'ga 2px kulrang chiziq va oq fon beradi; qorong'i saytda
+   bu chetlarda oq hoshiya bo'lib ko'rinadi. */
+body {
+  border-top: 0 none !important;
+  color: var(--text);
+}
+
+/* Uzun so'z va havolalar konteynerdan chiqib ketmasin */
+h1, h2, h3, h4, h5, h6, p, li, a, span, strong, blockquote, td, th, label {
+  overflow-wrap: break-word;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mashup mavzusidagi oq "card-container" (work.html) ichida matn
+   qorong'i bo'lishi shart — body rangi o'zgarganda ham. */
+.card-container {
+  color: #16202e;
+}
+
+/* ---------- 2. Mavzu bilan to'qnashuvlar ---------- */
+/* @media (max-width:992px) ichidagi
+     .card-container{width:80%;margin:-10em auto 20px}
+     .card-container.card-container-lg{width:95%;padding:2rem 3em;margin-top:-10em}
+   qoidalari yutuq/o'yin kartalarini tepaga tortib, ustma-ust qo'yadi. */
+.card-container.card-container-lg,
+.row-cards .card-container {
+  width: 100% !important;
+  margin: 0 0 28px 0 !important;
+  padding: 0 0 18px 0 !important;
+}
+
+/* Kartalar bir xil balandlikda va tekis tursin */
+.row-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row-cards > [class*="col-"] {
+  display: flex;
+}
+
+.row-cards .card-container {
+  flex: 1 1 auto;
+}
+
+/* ---------- 3. Navbar ---------- */
+.navbar {
+  padding: 0 16px;
+}
+
+.navbar .navbar-brand {
+  max-width: calc(100% - 96px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navbar .navbar-toggle {
+  border-radius: 8px;
+}
+
+.navbar .navbar-nav > li > a {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    padding: 0 10px;
+    min-height: 56px;
+  }
+
+  .navbar > .container {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .navbar .navbar-brand {
+    padding: 16px 0 16px 4px !important;
+    font-size: 1.05rem;
+  }
+
+  /* Gamburger tugmasi brand ustiga tushmasligi uchun o'ng tomonga
+     mahkamlaymiz. */
+  .navbar .navbar-toggle {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    float: none;
+    margin: 0;
+    padding: 10px 12px;
+  }
+
+  .navbar-collapse {
+    clear: both;
+    margin-top: 6px;
+    border-top: 1px solid var(--line);
+    padding: 8px 0 12px 0;
+  }
+
+  .navbar .navbar-nav {
+    float: none !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .navbar .navbar-nav > li {
+    float: none !important;
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Barmoq bilan bosish uchun qulay balandlik (44px+) */
+  .navbar .navbar-nav > li > a {
+    margin: 4px 0 !important;
+    padding: 12px 14px !important;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* ---------- 4. Bosh sahifa (hero) ---------- */
+.hero-full-container {
+  height: 100vh;
+  height: 100svh; /* mobil brauzer paneli hisobga olinadi */
+  min-height: 520px;
+}
+
+.hero-full-container .hero-full-wrapper {
+  display: table;
+  table-layout: fixed; /* uzun matn jadvalni cho'zib yubormasin */
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+}
+
+.hero-full-container .text-content {
+  max-width: 100%;
+}
+
+/* Mavzu 70px qo'ygan edi: tor ekranda "Abdurahmon Kenjaboyev"
+   sig'may, sahifa yon tomonga surilardi. Endi o'lcham ekranga moslashadi. */
+.hero-full-container h1 {
+  font-size: clamp(1.85rem, 8.5vw, 6.5rem);
+  line-height: 1.16;
+  margin: 0;
+  padding: 0 4px;
+  overflow-wrap: anywhere;
+  text-shadow: 0 4px 22px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- 5. Footer ---------- */
+.footer-container {
+  margin-top: 48px;
+  padding: 28px 0 34px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  margin-bottom: 16px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: #fff;
+  border-color: var(--blue);
+  background: rgba(43, 143, 255, 0.12);
+}
+
+.footer-links i {
+  margin-right: 6px;
+  color: var(--blue);
+}
+
+.footer-note {
+  margin: 0 0 6px 0;
+  color: var(--muted);
+}
+
+.footer-note a {
+  color: #8fc2ff;
+}
+
+.footer-note-soft {
+  color: rgba(232, 238, 248, 0.45);
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .footer-container {
+    margin-top: 32px;
+    padding: 22px 0 26px 0;
+    text-align: center;
+  }
+
+  .footer-links {
+    gap: 8px 10px;
+  }
+
+  .footer-links a {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ---------- 6. Aloqa formasi ---------- */
+/* Faqat aloqa sahifasidagi formaga tegishli (form.reveal-content) —
+   komponentlar sahifasidagi namuna maydonlar o'z holida qoladi. */
+form.reveal-content input.form-control,
+form.reveal-content textarea.form-control,
+form.reveal-content select.form-control {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #4da3ff !important; /* qora fonda o'qiladigan ko'k */
+  border: 1px solid rgba(43, 143, 255, 0.5) !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  height: auto;
+  min-height: 46px;
+  font-size: 15px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+form.reveal-content input.form-control:focus,
+form.reveal-content textarea.form-control:focus,
+form.reveal-content select.form-control:focus {
+  background: rgba(43, 143, 255, 0.14) !important;
+  border-color: var(--blue) !important;
+  box-shadow: 0 0 0 3px rgba(43, 143, 255, 0.22) !important;
+  outline: none;
+}
+
+form.reveal-content input.form-control::placeholder,
+form.reveal-content textarea.form-control::placeholder {
+  color: rgba(143, 194, 255, 0.85) !important;
+}
+
+form.reveal-content .btn {
+  border-radius: 10px !important;
+  padding: 11px 26px !important;
+  font-weight: 600;
+}
+
+.address-container {
+  margin-top: 20px;
+}
+
+.address-container .list-unstyled li {
+  margin-bottom: 6px;
+}
+
+.address-container .btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  text-align: left;
+  white-space: normal;
+}
+
+.address-container a,
+.address-container span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+  form.reveal-content .btn.btn-lg,
+  form.reveal-content .btn[type="submit"] {
+    width: 100%;
+  }
+}
+
+/* ---------- 7. Batafsil sahifalar (yutuq / o'yin) ---------- */
+.container .yutuq-detail-title,
+.container .oyun-detail-title {
+  font-size: 2.8rem;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+  gap: 10px;
+}
+
+.container.yutuq-detail-container,
+.container.oyun-detail-container {
+  padding: 30px;
+}
+
+@media (max-width: 767px) {
+  .container .yutuq-detail-title,
+  .container .oyun-detail-title {
+    font-size: 2rem;
+  }
+
+  .container.yutuq-detail-container,
+  .container.oyun-detail-container {
+    padding: 18px;
+    margin-top: 20px;
+    margin-bottom: 24px;
+  }
+
+  /* Matn telefonda chapga tekislanadi va o'qishga qulay bo'ladi
+     (loyihada 1rem = 10px, shuning uchun 1.4rem = 14px) */
+  .yutuq-detail-description,
+  .oyun-detail-description {
+    font-size: 1.4rem !important;
+    line-height: 1.7;
+    text-align: left !important;
+    padding: 14px !important;
+  }
+}
+
+/* ---------- 8. Komponentlar sahifasi (qorong'i fonda kontrast) ---------- */
+.template-example .template-title-example,
+.template-title-example {
+  color: var(--text);
+}
+
+.template-example .table > thead > tr > th,
+.template-example .table > tbody > tr > td {
+  color: var(--text);
+  border-color: var(--line);
+}
+
+/* Mavzu tugmalarni shaffof fon + to'q ko'k/qora matn bilan beradi —
+   qorong'i fonda ko'rinmaydi. Faqat komponentlar sahifasida tuzatamiz
+   (kartalardagi .btn-default boshqa joyda ishlatiladi). */
+.template-example .btn-primary {
+  color: #fff;
+  background-color: var(--blue-strong);
+  border-color: var(--blue-strong);
+}
+
+.template-example .btn-primary:hover,
+.template-example .btn-primary:focus {
+  color: #fff;
+  background-color: #0052cc;
+  border-color: #0052cc;
+}
+
+.template-example .btn-default {
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--line);
+}
+
+.template-example .btn-default:hover,
+.template-example .btn-default:focus {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--blue);
+}
+
+/* ---------- 9. Bootstrap konteyneri va yordamchi klasslar ---------- */
+/* Bootstrap 3 konteyneri qat'iy kenglikda (768px ekranda 750px), mavzu esa
+   body'ga 10px ichki bo'shliq qo'shadi → planshetda 8px gorizontal siljish
+   paydo bo'ladi. Suyuq (fluid) konteynerga o'tkazamiz. */
+.container {
+  width: auto;
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.col-12 {
+  width: 100%;
+  float: none;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* ---------- 10. Telefon va planshet uchun yakuniy qoidalar ---------- */
+@media (max-width: 767px) {
+  body {
+    padding: 8px;
+  }
+
+  #site-border-left,
+  #site-border-right {
+    width: 8px;
+  }
+
+  #site-border-top,
+  #site-border-bottom {
+    height: 8px;
+  }
+
+  .section-container {
+    padding: 36px 0;
+  }
+
+  /* Sahifa sarlavhalari telefonda juda katta bo'lib ketmasin */
+  h1.h1,
+  .section-container h1.h2 {
+    font-size: clamp(1.9rem, 9vw, 3rem);
+    margin-top: 32px;
+  }
+
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar .navbar-brand {
+    font-size: 0.98rem;
+  }
+}
