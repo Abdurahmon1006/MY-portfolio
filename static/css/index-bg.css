@@ -33,9 +33,23 @@
 }
 
 
-/* Konteyner ichidagi interaktdi umumiy elementlarni orqa darajasiga solish */
-.hero-full-container.background-image-container .hero-full-wrapper,
+/* Kontinual etib boradigan JS tomonidan boshqariladigan o'zgarishni yo'qotmaslik
+   uchun, erta holatda faqat `hero-full-wrapper` (navbatdagi wrapper) joylashtirilgan
+   joyida orqa darajaga soling.
+
+   ENG MUHIM: overlay `z-index:1` ga teng edi, wrapper `2` ga ko'tarilgan.
+   Hozir overlay yuqorida — wrapperning z-index'i 2, overlayning z-indexi 1.
+   Lekin JS faqat wrapper'ni harakatlantiradi — fon o'zgarmaydi. Shuning uchun
+   wrapper funksiyasi o'zgarmaydi, fon ham o'zgarmaydi. */
+
+/* Wrapper fonning ustiga chiqish uchun — lekin bu funktsiyani o'zgartirmaydi */
+.hero-full-container.background-image-container .hero-full-wrapper {
+  position: relative;
+  z-index: 2; /* overlayning oldidan chiqadi */
+}
+
 .hero-full-container.background-image-container .text-content {
   position: relative;
   z-index: 2;
 }
+
